@@ -10,3 +10,7 @@ def home_page(request):
 def super_user_login_page(request):
     if request.user.is_authenticated :
         redirect('home')
+
+
+def fun(request):
+    return "hi"
