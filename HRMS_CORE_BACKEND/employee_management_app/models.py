@@ -1,4 +1,6 @@
+
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class EMPLOYEE_DATA(models.Model):
@@ -12,3 +14,4 @@ class EMPLOYEE_DATA(models.Model):
     # emp_reporting_manager =  models.BigIntegerField()
     emp_date_of_birth = models.DateTimeField()
     # emp_designation = models.ForeignKey()
+    # emp_ctc_salary = models.DecimalField()
