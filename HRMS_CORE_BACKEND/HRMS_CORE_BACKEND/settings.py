@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "employee_management_app",
     "project_management_app",
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'hr_auth'
 ]
+
+AUTH_USER_MODEL = 'hr_auth.HRUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,26 +79,26 @@ WSGI_APPLICATION = 'HRMS_CORE_BACKEND.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 #
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+#     "default":{
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db_hrms',
+#         'USER': 'postgres',
+#         'PASSWORD': '123123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #
-DATABASES = {
-    "default":{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_hrms',
-        'USER': 'postgres',
-        'PASSWORD': '123123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-
-    }
-
-}
+#     }
+#
+# }
 
 
 # Password validation
@@ -138,3 +143,25 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# configuration for JWT  contributor : Abhinav
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Token expires in 5 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token expires in 1 day
+    'ROTATE_REFRESH_TOKENS': True,                 # Option to rotate refresh tokens after usage
+    'BLACKLIST_AFTER_ROTATION': True,              # Blacklist refresh token after it’s been used
+    'AUTH_HEADER_TYPES': ('Bearer',),              # Header type for token
+}
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+SESSION_COOKIE_SECURE = True  # Set to True to use secure cookies over HTTPS
+CSRF_COOKIE_SECURE = True
+SECURE_COOKIE = False # You can set this according to your needs
+

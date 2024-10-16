@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
-# from .models import User
-# Create your views here.
+from django.contrib.auth.models import User
+
 def home_page(request):
     return HttpResponse("HI")
 
@@ -12,5 +12,7 @@ def super_user_login_page(request):
         redirect('home')
 
 
-def fun(request):
-    return "hi"
+def login_user_employee(request):
+    if request.method == "POST":
+
+        return "Hi user"

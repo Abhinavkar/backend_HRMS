@@ -1,6 +1,6 @@
 *.pyc
 
-*.log
+HRMS_CORE_BACKEND/project_management_app/__pycache__/*
 *.pot
 __pycache__/
 local_settings.py
