@@ -79,26 +79,26 @@ WSGI_APPLICATION = 'HRMS_CORE_BACKEND.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 #
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+#     "default":{
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db_hrms',
+#         'USER': 'postgres',
+#         'PASSWORD': '123123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #
-DATABASES = {
-    "default":{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_hrms',
-        'USER': 'postgres',
-        'PASSWORD': '123123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-
-    }
-
-}
+#     }
+#
+# }
 
 
 # Password validation
@@ -161,5 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
+SESSION_COOKIE_SECURE = True  # Set to True to use secure cookies over HTTPS
+CSRF_COOKIE_SECURE = True
+SECURE_COOKIE = False # You can set this according to your needs
 
