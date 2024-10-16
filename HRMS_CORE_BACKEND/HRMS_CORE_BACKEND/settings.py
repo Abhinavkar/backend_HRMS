@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     "project_management_app",
     'rest_framework',
     'rest_framework_simplejwt',
+    'hr_auth'
 ]
 
+AUTH_USER_MODEL = 'hr_auth.HRUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -159,3 +161,5 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+
