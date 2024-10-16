@@ -7,3 +7,4 @@ class Role(models.Model):
 
     def __str__(self):
         return self.role_name
+
