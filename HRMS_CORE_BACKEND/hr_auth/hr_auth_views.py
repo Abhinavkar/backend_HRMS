@@ -70,6 +70,6 @@ class CustomTokenRefreshView(TokenRefreshView):
         response = super().post(request, data=data, *args, **kwargs)
 
         # Optionally, you might want to reset the refresh token cookie
-        # response.set_cookie(key='refresh', value=refresh_token, httponly=True, secure=settings.SECURE_COOKIE, samesite='Lax')
+        response.set_cookie(key='refresh', value=refresh_token, httponly=True, secure=settings.SECURE_COOKIE, samesite='Lax')
 
         return response

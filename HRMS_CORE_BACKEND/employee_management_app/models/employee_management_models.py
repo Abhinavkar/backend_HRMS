@@ -168,3 +168,15 @@
 #     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 #     engagement = models.ForeignKey(Engagement, on_delete=models.CASCADE)
 #     engagement_percentage = models.FloatField()
+
+from models.techstack_model import TechStack
+from models.engagment_model import Engagement
+from models.department_model import Department
+from models.bu_model import BusinessUnit
+from models.employee_model import EmployeeData
+from models.skill_model import Skill
+from models.role_model import Role
+from models.emp_project_model import EmployeeAndProject
+from models.emp_role_model import EmployeeRoleRelation
+from models.emp_techstack_model import EmployeeTechStackRelation
+from models.emp_skill_model import EmployeeSkillRelation
