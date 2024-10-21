@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "project_management_app",
     'rest_framework',
     'rest_framework_simplejwt',
-    'hr_auth'
+    'hr_auth',
+    'drf_yasg'
 ]
 
 AUTH_USER_MODEL = 'hr_auth.HRUser'
