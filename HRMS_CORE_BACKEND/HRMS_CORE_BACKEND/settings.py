@@ -146,12 +146,13 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
+########################################################################################################################
 # configuration for JWT  contributor : Abhinav
+
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Token expires in 5 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),  # Token expires in 5 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token expires in 1 day
     'ROTATE_REFRESH_TOKENS': True,                 # Option to rotate refresh tokens after usage
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist refresh token after it’s been used
@@ -165,4 +166,4 @@ REST_FRAMEWORK = {
 SESSION_COOKIE_SECURE = True  # Set to True to use secure cookies over HTTPS
 CSRF_COOKIE_SECURE = True
 SECURE_COOKIE = False # You can set this according to your needs
-
+########################################################################################################################
