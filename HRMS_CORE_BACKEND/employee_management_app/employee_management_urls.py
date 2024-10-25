@@ -41,7 +41,9 @@ urlpatterns = [
     path("get-skills-list/<uuid:id>",views.SkillDetailView.as_view(permission_classes=[IsAuthenticated]),name="skills_details_by_id"),
     path("create-skills",views.SkillsCreateView.as_view(permission_classes=[IsAuthenticated]),name="create_skills"),
     path("delete-skills/<uuid:id>/",views.SkillsListDeleteView.as_view(permission_classes=[IsAuthenticated]),name="delete_skills"),
-    path("upte-skills/<uuid:id>/",views.SkillsUpdateView.as_view(permission_classes=[IsAuthenticated]),name="update_skills"),
+    path("update-skills/<uuid:id>/",views.SkillsUpdateView.as_view(permission_classes=[IsAuthenticated]),name="update_skills"),
+    path("update-skills/<uuid:id>/",views.SkillsUpdateView.as_view(permission_classes=[IsAuthenticated]),name="update_skills"),
+    path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_deltails"),
     #DEPARTMENT UNIT URLS
     path("get-department-list/", views.DepartmentListView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
     path("get-department-list/<uuid:id>/", views.DepartmentDetailView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
