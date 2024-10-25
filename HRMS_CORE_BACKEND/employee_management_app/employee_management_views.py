@@ -5,10 +5,10 @@ from rest_framework import status
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
-from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer, \
-    SkillDataSerializer
+from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer,SkillDataSerializer, DepartmentDataSerializer
 from .models.engagment_model import Engagement
 from .models.skill_model import Skill
+from .models.department_model import Department
 
 
 ################################################## GET API #############################################################
@@ -54,6 +54,36 @@ class SkillListView(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+# DEPARTMENT APIs
+class DepartmentListView (APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        departments = Department.objects.all() #fetch all the departments
+        serializer = DepartmentDataSerializer(departments, many=True)  # Serialize the data
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class DepartmentDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        try:
+            department = Department.objects.get(pk=id)  # Fetch department by ID
+            serializer = DepartmentDataSerializer(department)  # Serialize the department data
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Department.DoesNotExist:
+            return Response({"error": "Department not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+
+
+
+
 ################################################## GET API ENDS ########################################################
 
 
@@ -83,6 +113,8 @@ class BusinessUnitCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
 class EngagementCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -92,6 +124,20 @@ class EngagementCreateView(APIView):
             serializer.save()
             return Response(serializer.data,status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class DepartmentCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = DepartmentDataSerializer(data=request.data)  # Deserialize and validate data
+        if serializer.is_valid():
+            serializer.save()  # Save the department instance
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 
@@ -133,6 +179,23 @@ class BusinessUnitUpdateView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class DepartmentUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            department = Department.objects.get(pk=id)  # Fetch the department by ID
+        except Department.DoesNotExist:
+            return Response({"error": "Department not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DepartmentDataSerializer(department, data=request.data)  # Use the serializer for updating
+        if serializer.is_valid():
+            serializer.save()  # Save the updated data
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 ################################################## PUT API ENDS ########################################################
 
 
@@ -159,6 +222,21 @@ class BusinessUnitDeleteView(APIView):
 
         business_unit.delete()
         return Response({"message": "Business Unit deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+class DepartmentDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            department = Department.objects.get(pk=id)  # Fetch the department by ID
+        except Department.DoesNotExist:
+            return Response({"error": "Department does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+        department.delete()  # Delete the department
+        return Response({"message": "Department deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
 
 
 

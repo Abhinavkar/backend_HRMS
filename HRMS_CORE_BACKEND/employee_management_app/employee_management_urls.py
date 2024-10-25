@@ -1,6 +1,8 @@
 from django.urls import path
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from . import employee_management_views as views  # Importing views
+
 
 urlpatterns = [
     # EMPLOYEE URLS
@@ -23,5 +25,13 @@ urlpatterns = [
 
 
     path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_deltails"),
+    #DEPARTMENT UNIT URLS
+    path("get-department-list/", views.DepartmentListView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
+    path("get-department-list/<uuid:id>/", views.DepartmentDetailView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
+    path("create-department/", views.DepartmentCreateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentCreateView"),
+    path("update-department/<uuid:id>/", views.DepartmentUpdateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentUpdateView"),
+    path("delete-department/<uuid:id>/", views.DepartmentDeleteView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentDeleteView"),
+
+
 
 ]
