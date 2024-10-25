@@ -12,6 +12,7 @@ from .models.role_model import Role
 from .models.skill_model import Skill
 from .models.department_model import Department
 from .employee_management_serializer import RoleDataSerializer
+from .models.techstack_model import TechStack
 
 
 ################################################## GET API #############################################################
