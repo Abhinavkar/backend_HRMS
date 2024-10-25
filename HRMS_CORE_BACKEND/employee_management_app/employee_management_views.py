@@ -21,6 +21,9 @@ class EmployeeListView(APIView):
         serializer = EmployeeDataSerializer(employees, many=True)  # Serialize the data
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
 class EmployeeDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -29,6 +32,8 @@ class EmployeeDetailView(APIView):
         employee = {"id": id, "name": "John Doe"}  # Replace with actual data retrieval logic
         return Response(employee, status=status.HTTP_200_OK)
 
+
+
 class BusinessUnitListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -36,6 +41,20 @@ class BusinessUnitListView(APIView):
         business_unit = BusinessUnit.objects.all()
         serializer = BusinessUnitSerializer(business_unit , many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+
+class BusinessUnitDetailView(APIView):
+
+    def get(self, request, id):
+        try:
+            business_unit = BusinessUnit.objects.get(pk=id)
+            serializer = BusinessUnitSerializer(business_unit)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except BusinessUnit.DoesNotExist:
+            return Response({"error": f"Business Unit with {id} not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
 
 class EngagementListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -52,6 +71,16 @@ class SkillListView(APIView):
         skills= Skill.objects.all()
         serializer  = SkillDataSerializer(skills,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class SkillDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request,id):
+        skill= Skill.objects.get(pk=id)
+        serializer = SkillDataSerializer(skill,id)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
 
 
 ################################################## GET API ENDS ########################################################
@@ -94,7 +123,13 @@ class EngagementCreateView(APIView):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-
+class SkillsCreateView(APIView):
+    def post(self,request):
+        serializer = SkillDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -133,6 +168,21 @@ class BusinessUnitUpdateView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class SkillsUpdateView(APIView):
+    def put(self,request,id):
+        try:
+            skills= Skill.object.get(pk=id)
+        except Skill.DoesNotExist:
+            return Response({"error": "Business Unit not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = SkillDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
 ################################################## PUT API ENDS ########################################################
 
 
@@ -159,6 +209,17 @@ class BusinessUnitDeleteView(APIView):
 
         business_unit.delete()
         return Response({"message": "Business Unit deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+class SkillsListDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self,request,id):
+        try :
+            skills = Skill.objects.get(pk=id)
+        except Skill.DoesNotExist :
+            return Response({"error":f"Skill {id}  does not exist " }, status=status.HTTP_404_NOT_FOUND)
+        skills.delete()
+        return Response({"message": "SKill deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
 
