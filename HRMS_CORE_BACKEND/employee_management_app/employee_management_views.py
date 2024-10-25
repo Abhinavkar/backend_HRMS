@@ -7,8 +7,10 @@ from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
 from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer,SkillDataSerializer, DepartmentDataSerializer
 from .models.engagment_model import Engagement
+from .models.role_model import Role
 from .models.skill_model import Skill
 from .models.department_model import Department
+from .emp_serializer import RoleDataSerializer
 
 
 ################################################## GET API #############################################################
@@ -143,6 +145,16 @@ class DepartmentDetailView(APIView):
 
 
 
+class RoleListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get (self ,request):
+        roles = Role.objects.all()
+        serializer  = RoleDataSerializer(roles,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+
+
 ################################################## GET API ENDS ########################################################
 
 
@@ -185,39 +197,17 @@ class EngagementCreateView(APIView):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-class DepartmentCreateView(APIView):
+
+
+class RoleCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = DepartmentDataSerializer(data=request.data)
+        serializer = RoleDataSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-class SkillsCreateView(APIView):
-    def post(self,request):
-        serializer = SkillDataSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-class DepartmentCreateView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        serializer = DepartmentDataSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
 
@@ -257,6 +247,19 @@ class BusinessUnitUpdateView(APIView):
         if serializer.is_valid():
             serializer.save()  # Save the updated data
             return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class RoleUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, name):
+        role = Role.objects.get(id=id)
+        serializer = RoleDataSerializer(role, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -377,5 +380,20 @@ class DepartmentDeleteView(APIView):
 
 
 
+class RoleDeleteView(APIView):
+    def delete(self, request, id):
+        try:
+            role = Role.objects.get(pk=id)
+            role_name = role.name
+            role.delete()
+            custom_message = f"Details for role: {role.name}"
+            return Response({
+                "message": custom_message
+            }, status=status.HTTP_204_NO_CONTENT)
+        except Role.DoesNotExist:
+            return Response({"error": "Role not found."}, status=status.HTTP_404_NOT_FOUND)
 
-################################################## DELETE API ###########################################################
+
+################################################## DELETE API ENDS  ###########################################################
+
+

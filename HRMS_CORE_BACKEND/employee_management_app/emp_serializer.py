@@ -4,6 +4,7 @@ from .models.department_model import Department
 from .models.employee_model import EmployeeData
 from .models.bu_model import BusinessUnit
 from .models.engagment_model import Engagement
+from .models.role_model import Role
 from .models.skill_model import Skill
 
 
@@ -40,3 +41,10 @@ class DepartmentDataSerializer(serializers.ModelSerializer):
     class Meta :
         model=Department
         fields = ['dept_id','dept_name','dept_head']
+
+
+
+class RoleDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = ['role_id' ,'role_name']

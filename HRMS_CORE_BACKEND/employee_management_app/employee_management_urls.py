@@ -24,6 +24,18 @@ urlpatterns = [
     # Engagement Urls
     path("get-engagement-type-list/",views.EngagementListView.as_view(permission_classes=[IsAuthenticated]), name="engagement_details"),
     path("create-engagement-type/",views.EngagementCreateView.as_view(permission_classes=[IsAuthenticated]),name="engagement_create"),
+
+
+    # SKILL URLS
+    path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_details"),
+
+
+
+    #ROLE URLS
+    path("get-roles-list/" ,views.RoleListView.as_view(permission_classes = [IsAuthenticated]) , name = "roles_details"),
+    path("create-roles/",views.RoleCreateView.as_view(permission_classes = [IsAuthenticated] ) ,name ="roles_details"),
+    path("update-roles/<uuid:id>/", views.RoleUpdateView.as_view(permission_classes=[IsAuthenticated]), name="roles_details"),
+    path("delete-roles/<uuid:id>/", views.RoleDeleteView.as_view(permission_classes=[IsAuthenticated]), name="roles_details"),
     # SKills Api
     path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_details"),
     path("get-skills-list/<uuid:id>",views.SkillDetailView.as_view(permission_classes=[IsAuthenticated]),name="skills_details_by_id"),
