@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated , IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
+from yaml import serialize
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
@@ -113,27 +114,7 @@ class SkillDetailView(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
-
-
-# DEPARTMENT APIs
-class DepartmentListView (APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self,request):
-        departments = Department.objects.all() #fetch all the departments
-        serializer = DepartmentDataSerializer(departments, many=True)  # Serialize the data
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
-
-
-
-
-
-
-
-
+#Role API
 class RoleListView(APIView):
     permission_classes = [IsAuthenticated]
     def get (self ,request):
@@ -198,7 +179,16 @@ class RoleCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class DepartmentCreateView(APIView):
+    permission_classes = [IsAuthenticated]
 
+
+    def post(self, request):
+        serializer = DepartmentDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
