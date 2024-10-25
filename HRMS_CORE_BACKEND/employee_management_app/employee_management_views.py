@@ -5,8 +5,10 @@ from rest_framework import status
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
-from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer
+from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer, \
+    SkillDataSerializer
 from .models.engagment_model import Engagement
+from .models.skill_model import Skill
 
 
 ################################################## GET API #############################################################
@@ -45,7 +47,12 @@ class EngagementListView(APIView):
 
 
 class SkillListView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        skills= Skill.objects.all()
+        serializer  = SkillDataSerializer(skills,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 ################################################## GET API ENDS ########################################################
 
@@ -85,6 +92,8 @@ class EngagementCreateView(APIView):
             serializer.save()
             return Response(serializer.data,status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
