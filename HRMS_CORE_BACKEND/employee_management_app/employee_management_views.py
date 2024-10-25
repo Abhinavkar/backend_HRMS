@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated , IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
+from yaml import serialize
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
@@ -172,6 +173,17 @@ class RoleCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class DepartmentCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+
+    def post(self, request):
+        serializer = DepartmentDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SkillsCreateView(APIView):
     def post(self,request):
@@ -203,6 +215,7 @@ class EmployeeUpdateView(APIView):
 
 class BusinessUnitUpdateView(APIView):
     permission_classes = [IsAuthenticated]
+
 
     def put(self, request, id):
         try:
