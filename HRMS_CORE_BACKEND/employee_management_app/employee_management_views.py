@@ -216,6 +216,7 @@ class EmployeeUpdateView(APIView):
 class BusinessUnitUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
+
     def put(self, request, id):
         try:
             business_unit = BusinessUnit.objects.get(pk=id)
