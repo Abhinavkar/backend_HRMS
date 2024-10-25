@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from .models.department_model import Department
 from .models.employee_model import EmployeeData
 from .models.bu_model import BusinessUnit
 from .models.engagment_model import Engagement
@@ -32,3 +34,9 @@ class SkillDataSerializer(serializers.ModelSerializer):
     class Meta :
         model=Skill
         fields= ['skills_id','skills_name']
+
+
+class DepartmentDataSerializer(serializers.ModelSerializer):
+    class Meta :
+        model=Department
+        fields = ['dept_id','dept_name','dept_head']
