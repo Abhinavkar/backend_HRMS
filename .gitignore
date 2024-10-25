@@ -2,6 +2,7 @@
 
 HRMS_CORE_BACKEND/project_management_app/__pycache__/*
 *.pot
+__pycache__/*
 */__pycache__/*
 local_settings.py
 db.sqlite3
@@ -13,7 +14,7 @@ media
 
 # C extensions
 *.so
-
+*/venv/*
 # Distribution / packaging
 .Python
 build/
