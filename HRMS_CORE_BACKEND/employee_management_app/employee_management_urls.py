@@ -16,9 +16,12 @@ urlpatterns = [
     path('create-business-unit/',views.BusinessUnitCreateView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_create"),
     path("update-business-unit/<uuid:id>/", views.BusinessUnitUpdateView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_update"),
     path("delete-business-unit/<uuid:id>/", views.BusinessUnitDeleteView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_delete"),
-
+    # Engagement Urls
     path("get-engagement-type-list/",views.EngagementListView.as_view(permission_classes=[IsAuthenticated]), name="engagement_details"),
-    path("create-engagement-type/",views.EngagementCreateView.as_view(permission_classes=[IsAuthenticated]),name="engagement_create")
+    path("create-engagement-type/",views.EngagementCreateView.as_view(permission_classes=[IsAuthenticated]),name="engagement_create"),
 
+
+
+    path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_deltails"),
 
 ]

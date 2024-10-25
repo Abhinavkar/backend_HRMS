@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models.employee_model import EmployeeData
 from .models.bu_model import BusinessUnit
 from .models.engagment_model import Engagement
+from .models.skill_model import Skill
 
 
 class EmployeeDataSerializer(serializers.ModelSerializer):
@@ -24,3 +25,10 @@ class EngagementDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Engagement
         fields = ['engagement_id',"engagement_type"]
+
+
+
+class SkillDataSerializer(serializers.ModelSerializer):
+    class Meta :
+        model=Skill
+        fields= ['skills_id','skills_name']

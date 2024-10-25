@@ -1,18 +1,20 @@
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
-from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer
+from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer, \
+    SkillDataSerializer
 from .models.engagment_model import Engagement
+from .models.skill_model import Skill
 
 
 ################################################## GET API #############################################################
 
 class EmployeeListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request):
         employees = EmployeeData.objects.all()  # Fetch all employees
@@ -44,7 +46,18 @@ class EngagementListView(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+class SkillListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        skills= Skill.objects.all()
+        serializer  = SkillDataSerializer(skills,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
 ################################################## GET API ENDS ########################################################
+
+
+
 
 ################################################## CREATE / POST  API ##################################################
 
@@ -84,7 +97,11 @@ class EngagementCreateView(APIView):
 
 
 
+
+
 ################################################## CREATE / POST API ENDS ##############################################
+
+
 
 
 
@@ -120,9 +137,14 @@ class BusinessUnitUpdateView(APIView):
 
 
 
+
+
+
 ################################################## PATCH API ###########################################################
 
 ################################################## PATCH API ###########################################################
+
+
 
 
 ################################################## DELETE API ###########################################################

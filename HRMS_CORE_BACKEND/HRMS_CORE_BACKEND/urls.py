@@ -11,9 +11,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Project work buddy ",
+        title="HRMS BACKEND ",
         default_version='v1',
-        description="Project Workbuddy api config ",
+        description="HRMS API CONFIGURATION  ",
         contact=openapi.Contact(email="abhinav.kar@vvdntech.in"),
         license=openapi.License(name="BSD License"),
     ),
