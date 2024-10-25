@@ -6,6 +6,7 @@ from .models.bu_model import BusinessUnit
 from .models.engagment_model import Engagement
 from .models.role_model import Role
 from .models.skill_model import Skill
+from .models.techstack_model import TechStack
 
 
 class EmployeeDataSerializer(serializers.ModelSerializer):
@@ -48,3 +49,8 @@ class RoleDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = ['role_id' ,'role_name']
+
+class TechStackDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TechStack
+        fields = ['techstack_id', 'techstack_name']  # Replace with actual fields in your model

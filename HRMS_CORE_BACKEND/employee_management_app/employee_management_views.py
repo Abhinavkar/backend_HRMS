@@ -6,12 +6,15 @@ from yaml import serialize
 
 from .models.bu_model import BusinessUnit
 from .models.employee_model import EmployeeData
-from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer,SkillDataSerializer, DepartmentDataSerializer
+from .emp_serializer import EmployeeDataSerializer, BusinessUnitSerializer, EngagementDataSerializer,SkillDataSerializer, DepartmentDataSerializer, TechStackDataSerializer
 from .models.engagment_model import Engagement
 from .models.role_model import Role
 from .models.skill_model import Skill
 from .models.department_model import Department
 from .emp_serializer import RoleDataSerializer
+from .models.techstack_model import TechStack
+
+
 
 
 ################################################## GET API #############################################################
@@ -113,6 +116,16 @@ class RoleListView(APIView):
         roles = Role.objects.all()
         serializer  = RoleDataSerializer(roles,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class TechStackListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        Techstacks = TechStack.objects.all()  # Fetch all the tech stacks
+        serializer = TechStackDataSerializer(Techstacks, many=True)  # Serialize the data
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 
 

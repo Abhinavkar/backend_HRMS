@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from . import employee_management_views as views  # Importing views
 
 
+
 urlpatterns = [
     # EMPLOYEE URLS
     path('list/', views.EmployeeListView.as_view(permission_classes=[IsAuthenticated]), name='employee_list'),
@@ -50,8 +51,8 @@ urlpatterns = [
     path("create-department/", views.DepartmentCreateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentCreateView"),
     path("update-department/<uuid:id>/", views.DepartmentUpdateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentUpdateView"),
     path("delete-department/<uuid:id>/", views.DepartmentDeleteView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentDeleteView"),
-
-
+    #TECHSTACK API
+    path("get-TechStack-list/", views.TechStackListView.as_view(permission_classes=[IsAuthenticated]), name='TechStackListView'),
 
 
 ]
