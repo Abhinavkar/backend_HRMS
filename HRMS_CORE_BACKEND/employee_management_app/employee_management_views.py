@@ -26,7 +26,6 @@ class EmployeeListView(APIView):
 
 
 
-
 class EmployeeDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -68,7 +67,6 @@ class EngagementListView(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
-# DEPARTMENT APIs
 class DepartmentListView (APIView):
     permission_classes = [IsAuthenticated]
 
@@ -326,8 +324,6 @@ class DepartmentDeleteView(APIView):
 
         department.delete()  # Delete the department
         return Response({"message": "Department deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-
-
 
 
 class RoleDeleteView(APIView):
