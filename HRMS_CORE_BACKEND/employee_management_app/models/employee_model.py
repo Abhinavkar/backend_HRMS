@@ -59,7 +59,7 @@ class EmployeeData(models.Model):
     emp_dob = models.DateField()
     emp_designation = models.CharField(max_length=100)
     emp_years_of_experience = models.CharField(max_length=10)
-    emp_profile_photo = models.BinaryField(null=True, blank=True)
+    # emp_profile_photo = models.BinaryField(null=True, blank=True)
     emp_ctc_salary = models.DecimalField(max_digits=10, decimal_places=2)
     emp_tech_stacks = models.ManyToManyField(TechStack, related_name='employees')
     emp_job_location = models.CharField(max_length=100)
