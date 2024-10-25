@@ -12,16 +12,24 @@ urlpatterns = [
 
 
     # BUSINESS UNIT URLS
+
     path("get-business-unit/", views.BusinessUnitListView.as_view(permission_classes=[IsAuthenticated]), name= "business_unit_details"),
     path('create-business-unit/',views.BusinessUnitCreateView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_create"),
     path("update-business-unit/<uuid:id>/", views.BusinessUnitUpdateView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_update"),
     path("delete-business-unit/<uuid:id>/", views.BusinessUnitDeleteView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_delete"),
+    path("get-business-unit/<uuid:id>/",views.BusinessUnitDetailView.as_view(permission_classes=[IsAuthenticated]),name="business_unit_details_id"),
+
     # Engagement Urls
     path("get-engagement-type-list/",views.EngagementListView.as_view(permission_classes=[IsAuthenticated]), name="engagement_details"),
     path("create-engagement-type/",views.EngagementCreateView.as_view(permission_classes=[IsAuthenticated]),name="engagement_create"),
+    # SKills Api
+    path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_details"),
+    path("get-skills-list/<uuid:id>",views.SkillDetailView.as_view(permission_classes=[IsAuthenticated]),name="skills_details_by_id"),
+    path("create-skills",views.SkillsCreateView.as_view(permission_classes=[IsAuthenticated]),name="create_skills"),
+    path("delete-skills/<uuid:id>/",views.SkillsListDeleteView.as_view(permission_classes=[IsAuthenticated]),name="delete_skills"),
+    path("upte-skills/<uuid:id>/",views.SkillsUpdateView.as_view(permission_classes=[IsAuthenticated]),name="update_skills")
+    #Role urls
 
 
-
-    path("get-skills-list/",views.SkillListView.as_view(permission_classes=[IsAuthenticated]),name="skills_deltails"),
 
 ]
