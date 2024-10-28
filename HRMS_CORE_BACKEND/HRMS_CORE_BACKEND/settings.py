@@ -27,8 +27,25 @@ SECRET_KEY = 'django-insecure-i4*q*8hiy$nt3dr=33h++4n3_t#spiurj_giuti@8w1_fh*l^%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","'127.0.0.1"]
+ALLOWED_HOSTS = ["http://localhost:5173",'127.0.0.1',"localhost"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Change this to your frontend origin
+]
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Authorization',
+    'Content-Type',
 
+]
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    "PUT",
+    "PATCH",
+    "DELETE",
+    'OPTIONS',
+]
 
 # Application definition
 
@@ -52,26 +69,13 @@ AUTH_USER_MODEL = 'hr_auth.HRUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Should be here
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'Authorization',
-    'Content-Type',
-]
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    "PUT",
-    "PATCH",
-    "DELETE",
-    'OPTIONS',
 ]
 
 
@@ -181,7 +185,26 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-SESSION_COOKIE_SECURE = True  # Set to True to use secure cookies over HTTPS
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False  # Set to True to use secure cookies over HTTPS
+CSRF_COOKIE_SECURE = False
 SECURE_COOKIE = False # You can set this according to your needs
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#         '__main__': {  # Replace __main__ with your app name if necessary
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
 ########################################################################################################################
