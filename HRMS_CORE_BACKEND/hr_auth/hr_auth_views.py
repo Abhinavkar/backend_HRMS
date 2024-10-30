@@ -1,3 +1,5 @@
+from struct import error
+
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework import status
@@ -17,7 +19,6 @@ class HRUserRegistrationView(generics.CreateAPIView):
         self.perform_create(serializer)
         return Response({"message": "HR user registered successfully."}, status=status.HTTP_201_CREATED)
 
-
 class HRUserLoginView(generics.GenericAPIView):
     serializer_class = HRUserLoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -28,48 +29,48 @@ class HRUserLoginView(generics.GenericAPIView):
 
         username = serializer.validated_data.get('username')
         password = serializer.validated_data.get('password')
-
-        # Authenticate user
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
-            # If authentication is successful, generate tokens
             refresh = RefreshToken.for_user(user)
-
-            # Set refresh token in a cookie
-            response = Response({
-                'access': str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
-
-            # Set HttpOnly cookie for refresh token
+            response = Response(status=status.HTTP_200_OK)
             response.set_cookie(
-                key='refresh',
+                key='refresh',  # Ensure this matches what you check for later
                 value=str(refresh),
                 httponly=True,
                 secure=settings.SECURE_COOKIE,  # Use True in production
                 samesite='Lax'
             )
+            response.data = {
+                'access': str(refresh),
+            }
             return response
+
         else:
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class CustomTokenRefreshView(TokenRefreshView):
-    permission_classes = [permissions.AllowAny]  # Allow access to everyone
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        # Get refresh token from cookies
         refresh_token = request.COOKIES.get('refresh')
         if not refresh_token:
             return Response({"error": "Refresh token not found."}, status=status.HTTP_401_UNAUTHORIZED)
-
-        # Prepare data for refreshing the token
         data = {"refresh": refresh_token}
-
-        # Call the super method to perform token refresh
-        response = super().post(request, data=data, *args, **kwargs)
-
-        # Optionally, you might want to reset the refresh token cookie
-        response.set_cookie(key='refresh', value=refresh_token, httponly=True, secure=settings.SECURE_COOKIE, samesite='Lax')
-
-        return response
+        try:
+            response = super().post(request, data=data, *args, **kwargs)
+            if response.status_code != 200:
+                return Response(response.data, status=response.status_code)
+            new_refresh_token = response.data.get('refresh')
+            if new_refresh_token:
+                response.set_cookie(
+                    key='refresh',
+                    value=new_refresh_token,
+                    httponly=True,
+                    secure=settings.SECURE_COOKIE,
+                    samesite='Lax'
+                )
+            return response
+        except Exception as e:
+            print("Error during token refresh:", e)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
