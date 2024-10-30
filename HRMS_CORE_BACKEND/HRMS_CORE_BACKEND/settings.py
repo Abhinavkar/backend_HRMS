@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 from pathlib import Path
+# from urllib.request import localhost
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +27,25 @@ SECRET_KEY = 'django-insecure-i4*q*8hiy$nt3dr=33h++4n3_t#spiurj_giuti@8w1_fh*l^%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["http://localhost:5173",'127.0.0.1',"localhost"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Change this to your frontend origin
+]
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Authorization',
+    'Content-Type',
 
+]
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    "PUT",
+    "PATCH",
+    "DELETE",
+    'OPTIONS',
+]
 
 # Application definition
 
@@ -42,13 +61,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'hr_auth',
-    'drf_yasg'
+    'drf_yasg',
+    "corsheaders"
 ]
 
 AUTH_USER_MODEL = 'hr_auth.HRUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Should be here
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'HRMS_CORE_BACKEND.urls'
 
@@ -81,25 +103,25 @@ WSGI_APPLICATION = 'HRMS_CORE_BACKEND.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-#
 # DATABASES = {
-#     "default":{
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'db_hrm',
-#         'USER': 'postgres',
-#         'PASSWORD': '123123',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
-#
 # }
+#
+DATABASES = {
+    "default":{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db_hrm',
+        'USER': 'postgres',
+        'PASSWORD': '123123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+
+    }
+
+}
 
 
 # Password validation
@@ -152,7 +174,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),  # Token expires in 5 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Token expires in 5 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Refresh token expires in 1 day
     'ROTATE_REFRESH_TOKENS': True,                 # Option to rotate refresh tokens after usage
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist refresh token after it’s been used
@@ -163,7 +185,26 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-SESSION_COOKIE_SECURE = True  # Set to True to use secure cookies over HTTPS
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False  # Set to True to use secure cookies over HTTPS
+CSRF_COOKIE_SECURE = False
 SECURE_COOKIE = False # You can set this according to your needs
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#         '__main__': {  # Replace __main__ with your app name if necessary
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
 ########################################################################################################################
