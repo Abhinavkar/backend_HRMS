@@ -128,6 +128,9 @@ class TechStackListView(APIView):
 
 
 
+
+
+
 ################################################## GET API ENDS ########################################################
 
 
@@ -182,8 +185,6 @@ class RoleCreateView(APIView):
 
 class DepartmentCreateView(APIView):
     permission_classes = [IsAuthenticated]
-
-
     def post(self, request):
         serializer = DepartmentDataSerializer(data=request.data)
         if serializer.is_valid():
@@ -199,6 +200,18 @@ class SkillsCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TechStackCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        serializer = TechStackDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 ################################################## CREATE / POST API ENDS ##############################################
@@ -279,6 +292,21 @@ class SkillsUpdateView(APIView):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class TechStackUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            Techstack = TechStack.objects.get(pk=id)  # Fetch the department by ID
+        except Techstack.DoesNotExist:
+            return Response({"error": "Department not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DepartmentDataSerializer(Techstack, data=request.data)  # Use the serializer for updating
+        if serializer.is_valid():
+            serializer.save()  # Save the updated data
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

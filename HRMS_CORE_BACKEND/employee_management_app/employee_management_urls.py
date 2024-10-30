@@ -47,6 +47,7 @@ urlpatterns = [
 
     #TECHSTACK API
     path("get-TechStack-list/", views.TechStackListView.as_view(permission_classes=[IsAuthenticated]), name='TechStackListView'),
+    path("create-techstack/", views.TechStackCreateView.as_view(permission_classes=[IsAuthenticated]), name="TechStackCreateView"),
 
 
 ]
