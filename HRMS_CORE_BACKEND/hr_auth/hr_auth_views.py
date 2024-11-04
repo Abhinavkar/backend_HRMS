@@ -1,3 +1,4 @@
+from os import access
 from struct import error
 
 from rest_framework import generics, permissions
@@ -8,16 +9,33 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
-
+from .utils.utils import send_hr_email
 
 class HRUserRegistrationView(generics.CreateAPIView):
     serializer_class = HRUserRegistrationSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response({"message": "HR user registered successfully."}, status=status.HTTP_201_CREATED)
+        # Validate and create the new user
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+
+            # Define email details
+            subject = "Welcome to the HRMS Portal"
+            username = serializer.validated_data.get('username', 'Your username')
+            recipient_list = [serializer.validated_data['email']]
+            message = (f"You have been registered as an HR user. You now have access to the portal.\n"
+                       f"Your User ID is: {username}\n"
+                       "Please log in with your credentials.")
+
+            send_hr_email(subject, message, recipient_list)
+            return Response({"message": "HR user registered successfully."}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+             print(f"An error occurred: {e}")
+             return Response({"error": "User registration failed. Please try again."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class HRUserLoginView(generics.GenericAPIView):
     serializer_class = HRUserLoginSerializer
@@ -41,7 +59,7 @@ class HRUserLoginView(generics.GenericAPIView):
                 samesite='Lax'
             )
             response.data = {
-                'access': str(refresh),
+                'access': str(refresh.access_token),
             }
             return response
 

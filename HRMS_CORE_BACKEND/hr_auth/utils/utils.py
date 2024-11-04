@@ -1,4 +1,3 @@
-# Updated utils.py
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -15,7 +14,6 @@ def send_hr_email(subject, message, recipient_list):
             fail_silently=False,
         )
     except BadHeaderError:
-        # Handle the case where an invalid header was provided
         raise SuspiciousOperation("Invalid header found.")
     except Exception as e:
         # Handle other potential errors
