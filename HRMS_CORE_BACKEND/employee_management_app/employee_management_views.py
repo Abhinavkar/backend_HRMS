@@ -119,8 +119,8 @@ class RoleListView(APIView):
 class TechStackListView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        Techstacks = TechStack.objects.all()  # Fetch all the tech stacks
-        serializer = TechStackDataSerializer(Techstacks, many=True)  # Serialize the data
+        techstacks = TechStack.objects.all()  # Fetch all the tech stacks
+        serializer = TechStackDataSerializer(techstacks, many=True)  # Serialize the data
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
