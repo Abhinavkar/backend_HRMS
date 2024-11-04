@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'hr_auth',
     'drf_yasg',
-    "corsheaders"
+    "corsheaders",
 ]
 
 AUTH_USER_MODEL = 'hr_auth.HRUser'
@@ -216,4 +216,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'backendhrms@gmail.com'  # Your Gmail address
-EMAIL_HOST_PASSWORD = 'qwertyuiop@1234567890'   # The app password you generated
+EMAIL_HOST_PASSWORD = 'fyyv ybzd lsac kchd'   # The app password you generated
