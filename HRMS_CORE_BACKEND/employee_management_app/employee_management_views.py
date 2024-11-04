@@ -302,7 +302,7 @@ class TechStackUpdateView(APIView):
         except Techstack.DoesNotExist:
             return Response({"error": "Department not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = DepartmentDataSerializer(Techstack, data=request.data)  # Use the serializer for updating
+        serializer = DepartmentDataSerializer(Techstack, data=request.data)
         if serializer.is_valid():
             serializer.save()  # Save the updated data
             return Response(serializer.data, status=status.HTTP_200_OK)
