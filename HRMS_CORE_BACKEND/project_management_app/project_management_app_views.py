@@ -8,10 +8,13 @@ from .project_management_app_serializers import ProjectSerializer
 
 class ProjectManagementViewSet(APIView):
     permission_classes = [IsAuthenticated]
-
+########################################### CREATE/POST ######################################
     def post(self, request):
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             project = serializer.save()  # Save the new project
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+######################################### GET ################################################
