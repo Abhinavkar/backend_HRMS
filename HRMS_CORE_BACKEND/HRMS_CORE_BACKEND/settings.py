@@ -208,3 +208,12 @@ SECURE_COOKIE = False # You can set this according to your needs
 #     },
 # }
 ########################################################################################################################
+
+# For email configuration 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'backendhrms@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'qwertyuiop@1234567890'   # The app password you generated
