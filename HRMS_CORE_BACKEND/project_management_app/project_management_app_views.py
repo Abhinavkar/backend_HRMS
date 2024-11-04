@@ -1,18 +1,17 @@
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.contrib.auth.models import User
 
-def home_page(request):
-    return HttpResponse("HI")
+# project_management_app/views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from .project_management_app_serializers import ProjectSerializer
 
+class ProjectManagementViewSet(APIView):
+    permission_classes = [IsAuthenticated]
 
-
-def super_user_login_page(request):
-    if request.user.is_authenticated :
-        redirect('home')
-
-
-def login_user_employee(request):
-    if request.method == "POST":
-
-        return "Hi user"
+    def post(self, request):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            project = serializer.save()  # Save the new project
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
