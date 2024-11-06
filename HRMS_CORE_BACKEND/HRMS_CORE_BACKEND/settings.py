@@ -56,13 +56,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "employee_management_app",
-    "project_management_app",
     'rest_framework',
     'rest_framework_simplejwt',
-    'hr_auth',
     'drf_yasg',
     "corsheaders",
+
+
+
+    #CUSTOMS INSTALLED APPS
+    "employee_management_app",
+    "project_management_app",
+    'hr_auth',
+    "cache",
+
+
 ]
 
 AUTH_USER_MODEL = 'hr_auth.HRUser'
@@ -78,6 +85,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"  # Points to the cache configuration above
 
 ROOT_URLCONF = 'HRMS_CORE_BACKEND.urls'
 
@@ -103,25 +112,25 @@ WSGI_APPLICATION = 'HRMS_CORE_BACKEND.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default":{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_hrm',
-        'USER': 'postgres',
-        'PASSWORD': '123123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-
 }
+
+# DATABASES = {
+#     "default":{
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db_hrm',
+#         'USER': 'postgres',
+#         'PASSWORD': '123123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#
+#     }
+#
+# }
 #
 
 # Password validation
@@ -217,3 +226,14 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'backendhrms@gmail.com'  # Your Gmail address
 EMAIL_HOST_PASSWORD = 'fyyv ybzd lsac kchd'   # The app password you generated
+
+#Redis cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Change to your Redis server and database
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    }
+}
