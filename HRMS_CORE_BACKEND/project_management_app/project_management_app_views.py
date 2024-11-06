@@ -1,5 +1,3 @@
-
-# project_management_app/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,7 +6,7 @@ from .project_management_app_serializers import ProjectSerializer
 from .project_management_app_models import Project
 
 
-
+########################################### CREATE CLASS FOR ALL #############################
 class ProjectManagementViewSet(APIView):
     permission_classes = [IsAuthenticated]
 ########################################### CREATE/POST ######################################
@@ -26,6 +24,8 @@ class ProjectManagementViewSet(APIView):
         serializer = ProjectSerializer(projects, many=True) # Serialize the projects using the ProjectSerializer
         return Response(serializer.data, status=status.HTTP_200_OK) #Return the serialized data in the response with status 200
 
+
+
 ####################################### PUT/PATCH ############################################
 
     def put(self, request, pk):
@@ -41,7 +41,5 @@ class ProjectManagementViewSet(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
