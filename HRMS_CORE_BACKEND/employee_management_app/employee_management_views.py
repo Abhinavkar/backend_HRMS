@@ -17,15 +17,6 @@ from .employee_management_pagination import CustomPagination
 
 
 
-# class EmployeeDetailView(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self, request, id):
-#         # Example logic to return details of a specific employee by ID
-#         employee = {"id": id, "name": "John Doe"}  # Replace with actual data retrieval logic
-#         return Response(employee, status=status.HTTP_200_OK)
-#
-#
 class EmployeeListView(APIView):
     permission_classes = [IsAdminUser]
     pagination_class = CustomPagination  # Use the custom pagination
@@ -76,14 +67,6 @@ class BusinessUnitDetailView(APIView):
             return Response({"error": f"Business Unit with {id} not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-
-# class EngagementListView(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self,request):
-#         engagement=Engagement.objects.all()
-#         serializer=EngagementDataSerializer(engagement,many=True)
-#         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class EngagementListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -182,13 +165,6 @@ class RoleListView(APIView):
 #         serializer  = RoleDataSerializer(roles,many=True)
 #         return Response(serializer.data,status=status.HTTP_200_OK)
 
-
-# class TechStackListView(APIView):
-#     permission_classes = [IsAuthenticated]
-#     def get(self, request):
-#         techstacks = TechStack.objects.all()  # Fetch all the tech stacks
-#         serializer = TechStackDataSerializer(techstacks, many=True)  # Serialize the data
-#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class TechStackListView(APIView):
     permission_classes = [IsAuthenticated]
