@@ -29,6 +29,7 @@ urlpatterns = [
     path('employee/', include("employee_management_app.employee_management_urls")),  # Include your employee management app's URLs
     path('project/',include("project_management_app.project_management_app_urls")),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path("cache/",include("cache.urls")),
 
 ]
 

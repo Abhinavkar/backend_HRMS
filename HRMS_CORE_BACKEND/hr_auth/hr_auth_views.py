@@ -30,6 +30,7 @@ class HRUserRegistrationView(generics.CreateAPIView):
                        "Please log in with your credentials.")
 
             send_hr_email(subject, message, recipient_list)
+
             return Response({"message": "HR user registered successfully."}, status=status.HTTP_201_CREATED)
 
         except Exception as e:
