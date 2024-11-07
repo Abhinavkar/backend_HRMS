@@ -34,13 +34,7 @@ class EmployeeListView(APIView):
         # Return the paginated response
         return paginator.get_paginated_response(serializer.data)
 
-# class BusinessUnitListView(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self,request):
-#         business_unit = BusinessUnit.objects.all()
-#         serializer = BusinessUnitSerializer(business_unit , many=True)
-#         return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 class BusinessUnitListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -82,14 +76,6 @@ class EngagementListView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
 
-# class DepartmentListView (APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def get(self,request):
-#         departments = Department.objects.all() #fetch all the departments
-#         serializer = DepartmentDataSerializer(departments, many=True)  # Serialize the data
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
 class DepartmentListView(APIView):
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
@@ -121,6 +107,7 @@ class SkillDetailView(APIView):
         skill= Skill.objects.get(pk=id)
         serializer = SkillDataSerializer(skill,id)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 
 class SkillListView(APIView):
@@ -188,13 +175,16 @@ class TechStackListView(APIView):
 ################################################## CREATE / POST  API ##################################################
 
 
-class EmployeeCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+class EmployeeRegistrationView(generics.CreateAPIView):
+    serializer_class = EmployeeRegistrationSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated HR users can create employees
 
-    def post(self, request):
-        # Example logic to handle creating a new employee
-        # You would normally deserialize request.data and save to the database
-        return Response({"message": "New employee created"}, status=status.HTTP_201_CREATED)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return Response({"message": "Employee registered successfully."}, status=status.HTTP_201_CREATED)
 
 
 
