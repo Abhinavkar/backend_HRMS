@@ -193,6 +193,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
 }
 SESSION_COOKIE_SECURE = False  # Set to True to use secure cookies over HTTPS
 CSRF_COOKIE_SECURE = False
@@ -237,4 +239,6 @@ CACHES = {
         },
     }
 }
+
+# settings.py
 
