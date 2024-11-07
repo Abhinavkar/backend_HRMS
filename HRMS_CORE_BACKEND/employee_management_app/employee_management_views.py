@@ -12,6 +12,7 @@ from .models.department_model import Department
 from .employee_management_serializer import RoleDataSerializer
 from .models.techstack_model import TechStack
 from .employee_management_pagination import CustomPagination
+# from project_management_app.project_management_app_serializers  import EmployeeRegistrationSerializer
 
 ################################################## GET API #############################################################
 
@@ -77,7 +78,7 @@ class EngagementListView(APIView):
 
 
 class DepartmentListView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
 
     def get(self, request):
@@ -176,7 +177,7 @@ class TechStackListView(APIView):
 
 
 class EmployeeRegistrationView(generics.CreateAPIView):
-    serializer_class = EmployeeRegistrationSerializer
+    # serializer_class = EmployeeRegistrationSerializer
     permission_classes = [IsAuthenticated]  # Only authenticated HR users can create employees
 
     def post(self, request, *args, **kwargs):
