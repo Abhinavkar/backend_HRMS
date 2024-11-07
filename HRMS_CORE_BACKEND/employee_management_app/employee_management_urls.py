@@ -41,13 +41,13 @@ urlpatterns = [
     #DEPARTMENT UNIT URLS
     path("get-department-list/", views.DepartmentListView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
     path("get-department-list/<uuid:id>/", views.DepartmentDetailView.as_view(permission_classes=[IsAuthenticated]),name="DepartmentListView"),
-    path("create-department/", views.DepartmentCreateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentCreateView"),
-    path("update-department/<uuid:id>/", views.DepartmentUpdateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentUpdateView"),
+    path("post-create-department/", views.DepartmentCreateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentCreateView"),
+    path("put-update-department/<uuid:id>/", views.DepartmentUpdateView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentUpdateView"),
     path("delete-department/<uuid:id>/", views.DepartmentDeleteView.as_view(permission_classes=[IsAuthenticated]), name="DepartmentDeleteView"),
 
     #TECHSTACK API
     path("get-TechStack-list/", views.TechStackListView.as_view(permission_classes=[IsAuthenticated]), name='TechStackListView'),
-    path("create-techstack/", views.TechStackCreateView.as_view(permission_classes=[IsAuthenticated]), name="TechStackCreateView"),
+    path("post-create-techstack/", views.TechStackCreateView.as_view(permission_classes=[IsAuthenticated]), name="TechStackCreateView"),
 
 
 ]
